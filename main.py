@@ -50,6 +50,15 @@ while True:
 	elif a == '':
 		save_log('抽奖名单设置完毕，参与学号:'+"、".join(list))
 		break
+	#del命令
+	elif a.startswith('del') == True:
+		a=a.replace('del ','')
+		if (a in list) == True:
+			list.remove(a)
+			print('已删除'+a+n2n[a])
+			save_log('已删除'+a+n2n[a])
+		else:
+			print('删除失败: 没有这个参与者')
 	#添加抽奖名单
 	else:
 		#开启严格模式时
@@ -85,7 +94,7 @@ print('恭喜这'+num+'位同学')
 for i in range(int(num)):
 	lucky=random.choice(list)
 	list.remove(lucky)
-	if error == 'False':
+	if (error == 'False') and (strict_mode == 'on'):
 		print(lucky+n2n[lucky])
 		save_log('参与者'+lucky+n2n[lucky]+'中奖')
 	else:

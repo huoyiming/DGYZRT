@@ -31,3 +31,14 @@ jobs:
         with:
           name: Build
           path: output
+      - name: create pre-release and upload asset
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: output.zip
+          file_glob: true
+          tag: preview
+          overwrite: true
+          release_name: "preview"
+          body: "自动打包版本，可能有不稳定性"
+          prerelease: true
