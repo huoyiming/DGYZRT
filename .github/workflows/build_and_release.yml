@@ -1,0 +1,53 @@
+name: Build_And_Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      Release_Version:
+        description: '发布版本'
+        required: true
+        default: 'v1.0'
+      Release_Describe:
+        description: '版本说明'
+        required: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Download Code
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Dependces
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install pyinstaller
+          pip3 install -r requirements.txt
+      - name: Build
+        run: |
+          mkdir output
+          pyinstaller -F main.py
+          mv dist/*.exe output/
+          mv README.md output/
+          mv LICENSE output/
+          mv n2n.json output/
+          Compress-Archive -Path output -DestinationPath output.zip
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: Build
+          path: output
+      - name: create release and upload asset
+        if: ${{ github.event.inputs.Release_Version != 'none' && github.event.inputs.Release_Version != '' }}
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: output.zip
+          file_glob: true
+          tag: ${{ github.event.inputs.Release_Version }}
+          overwrite: true
+          release_name: "${{ github.event.inputs.Release_Version }}"
+          body: "${{ github.event.inputs.Release_Describe }}"
+     

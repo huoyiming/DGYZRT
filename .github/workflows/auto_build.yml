@@ -1,0 +1,33 @@
+name: Auto-Build
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Download Code
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Dependces
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install pyinstaller
+      - name: Build
+        run: |
+          mkdir output
+          pyinstaller -F main.py
+          mv dist/*.exe output/
+          mv README.md output/
+          mv LICENSE output/
+          mv n2n.json output/
+          Compress-Archive -Path output -DestinationPath output.zip
+      - name: Upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: Build
+          path: output
