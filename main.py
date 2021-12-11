@@ -4,10 +4,9 @@ import time
 import os
 
 
-print('幸运大抽奖v1.0')
+print('幸运大抽奖v2.0.1')
 list=[]#初始化抽奖列表
 strict_mode='on'#默认开启严格模式
-
 
 #创建落鸽函数
 if not os.path.exists('落鸽'):
@@ -23,11 +22,9 @@ def save_log(log_text):
 try:
 	file=open("n2n.json",'r',encoding='utf8')
 	n2n = json.load(file)
-	error='False'
 	save_log('名单加载成功')
 except:
 	print('跳过读取名单')
-	error='True'
 	save_log('名单加载失败')
 
 num=input('中奖人数:')
@@ -67,14 +64,14 @@ while True:
 			if result == True:
 				print('此人已存在')
 			elif result == False:
-				if error == 'False':
+				try:
 					if (a in n2n) == True:
 						list.append(a)
 						print('已添加:'+a+n2n[a])
 						save_log('抽奖名单添加'+a+n2n[a])
 					else:
 						print('查无此人')
-				elif error == 'True':
+				except:
 					list.append(a)
 					print('已添加:'+a)
 					save_log('抽奖名单添加'+a)
@@ -94,10 +91,10 @@ print('恭喜这'+num+'位同学')
 for i in range(int(num)):
 	lucky=random.choice(list)
 	list.remove(lucky)
-	if (error == 'False') and (strict_mode == 'on'):
+	try:
 		print(lucky+n2n[lucky])
 		save_log('参与者'+lucky+n2n[lucky]+'中奖')
-	else:
+	except:
 		print(lucky)
 		save_log('参与者'+lucky+'中奖')
 exit=input('按回车退出')
