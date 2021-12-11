@@ -30,7 +30,7 @@ except:
 
 num=input('中奖人数:')#设置中奖人数
 save_log('中奖人数设置为'+num)
-print('现可使用del [学号]删除参与者')
+print('现可使用del 学号删除参与者')
 while True:
 	a=input('学号:')
 	#严格模式开启、关闭
