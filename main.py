@@ -11,15 +11,15 @@ strict_mode='on'#默认开启严格模式
 
 #创建落鸽函数
 if not os.path.exists('落鸽'):
-    os.makedirs('落鸽')
-def save_log(log_text):
-	time_date=time.strftime("%Y-%m-%d", time.localtime()) 
-	time_hms=time.strftime("%H:%M:%S", time.localtime()) 
+    os.makedirs('落鸽')#当落鸽文件夹不存在时新建落鸽文件夹
+def save_log(落鸽):
+	time_date=time.strftime("%Y-%m-%d", time.localtime())#当前时间（年月日）
+	time_hms=time.strftime("%H:%M:%S", time.localtime())#当前时间（时分秒）
 	log_name="落鸽/"+time_date+'.log'
 	with open(log_name,'a',encoding='utf8') as log_file:
-		log_file.write(time_hms+'  '+log_text+'\n')
+		log_file.write(time_hms+'  '+落鸽+'\n')#写入落鸽内容
 
-#尝试读取n2n.json（名单字典），成功则设定error为False，反之亦然
+#尝试读取n2n.json（名单字典）
 try:
 	file=open("n2n.json",'r',encoding='utf8')
 	n2n = json.load(file)
@@ -28,8 +28,9 @@ except:
 	print('跳过读取名单')
 	save_log('名单加载失败')
 
-num=input('中奖人数:')
+num=input('中奖人数:')#设置中奖人数
 save_log('中奖人数设置为'+num)
+print('现可使用del [学号]删除参与者')
 while True:
 	a=input('学号:')
 	#严格模式开启、关闭
@@ -51,7 +52,7 @@ while True:
 	#del命令
 	elif a.startswith('del') == True:
 		a=a.replace('del ','')
-		if (a in list) == True:
+		if (a in list) == True:#判断要删除的参与者是否在名单内
 			list.remove(a)
 			print('已删除'+a+n2n[a])
 			save_log('已删除'+a+n2n[a])
@@ -59,32 +60,27 @@ while True:
 			print('删除失败: 没有这个参与者')
 	#添加抽奖名单
 	else:
+		a=a.replace(' ','')#删除所有空格，减少出错概率
 		#开启严格模式时
 		if strict_mode == 'on':
 			result=a in list
 			if result == True:
 				print('此人已存在')
 			elif result == False:
-				try:
-					if (a in n2n) == True:
-						list.append(a)
-						print('已添加:'+a+n2n[a])
-						save_log('抽奖名单添加'+a+n2n[a])
-					else:
-						print('查无此人')
+				list.append(a)
+				try:#尝试在字典中查找学号
+					print('已添加:'+a+n2n[a])
+					save_log('抽奖名单添加'+a+n2n[a])
 				except:
-					list.append(a)
 					print('已添加:'+a)
 					save_log('抽奖名单添加'+a)
 		#关闭严格模式时
 		else:
-			#判断输入值是否在字典中存在
-			if (a in n2n) == True:
-				list.append(a)
+			list.append(a)
+			try:
 				print('已添加:'+a+n2n[a])
 				save_log('抽奖名单添加'+a+n2n[a])
-			else:
-				list.append(a)
+			except:
 				print('已添加:'+a)
 				save_log('抽奖名单添加'+a)
 #清屏
@@ -92,6 +88,7 @@ if platform.system().lower() == 'windows':
 	os.system("cls")
 elif platform.system().lower() == 'linux':
 	os.system("clear")
+#输出
 print('恭喜这'+num+'位同学')
 for i in range(int(num)):
 	lucky=random.choice(list)
@@ -102,4 +99,5 @@ for i in range(int(num)):
 	except:
 		print(lucky)
 		save_log('参与者'+lucky+'中奖')
+save_log('本次抽奖结束')
 exit=input('按回车退出')
