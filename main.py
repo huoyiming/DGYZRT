@@ -2,6 +2,7 @@ import random
 import json
 import time
 import os
+import platform
 
 
 print('幸运大抽奖v2.0.1')
@@ -86,7 +87,11 @@ while True:
 				list.append(a)
 				print('已添加:'+a)
 				save_log('抽奖名单添加'+a)
-			
+#清屏
+if platform.system().lower() == 'windows':
+	os.system("cls")
+elif platform.system().lower() == 'linux':
+	os.system("clear")
 print('恭喜这'+num+'位同学')
 for i in range(int(num)):
 	lucky=random.choice(list)
