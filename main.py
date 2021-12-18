@@ -54,8 +54,12 @@ while True:
 		a=a.replace('del ','')
 		if (a in list) == True:#判断要删除的参与者是否在名单内
 			list.remove(a)
-			print('已删除'+a+n2n[a])
-			save_log('已删除'+a+n2n[a])
+			try:
+				print('已删除'+a+n2n[a])
+				save_log('已删除'+a+n2n[a])
+			except:
+				print('已删除'+a)
+				save_log('已删除'+a)
 		else:
 			print('删除失败: 没有这个参与者')
 	#添加抽奖名单
