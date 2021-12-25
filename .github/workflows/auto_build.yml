@@ -37,8 +37,8 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: output.zip
           file_glob: true
-          tag: preview
+          tag: ${git_hash}
           overwrite: true
-          release_name: "preview"
+          release_name: ${git_hash}
           body: "自动打包版本，可能有不稳定性"
           prerelease: true
