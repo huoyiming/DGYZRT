@@ -5,7 +5,7 @@ import os
 import platform
 
 
-print('幸运大抽奖v2.1.0')
+print('幸运大抽奖v2.1.1')
 list1=[]#初始化抽奖列表
 strict_mode='on'#默认开启严格模式
 
