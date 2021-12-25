@@ -8,6 +8,8 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
+      - id: commit
+        uses: pr-mpt/actions-commit-hash@v1
       - name: Download Code
         uses: actions/checkout@v2
         with:
@@ -37,8 +39,8 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: output.zip
           file_glob: true
-          tag: ${{ GITHUB_SHA }}
+          tag: ${{ steps.commit.outputs.short }}
           overwrite: true
-          release_name: ${{ GITHUB_SHA }}
+          release_name: ${{ steps.commit.outputs.short }}
           body: "自动打包版本，可能有不稳定性"
           prerelease: true
