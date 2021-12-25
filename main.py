@@ -80,11 +80,11 @@ try:
 				print('请输入数字!')
 				continue
 			list1=[str(x) for x in list1]#将列表中的int全部转化为str
-			print('请输入排除值（回车开始抽奖）',list1)
+			print('请输入排除值（回车开始抽奖）')
 			exceptlist=' '
 			while True:
 				exceptlist=input('排除值: ')
-				save_log('已排除：'+exceptlist)
+				save_log('已排除: '+exceptlist)
 				if exceptlist == '':
 					break
 				else:
