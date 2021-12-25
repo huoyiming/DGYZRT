@@ -24,6 +24,7 @@ save_log('==========日志开始==========')
 try:
 	file=open("n2n.json",'r',encoding='utf8')
 	n2n = json.load(file)
+	print('名单加载成功')
 	save_log('名单加载成功')
 except:
 	print('跳过读取名单')
@@ -57,8 +58,8 @@ try:
 			if (a in list1) == True:#判断要删除的参与者是否在名单内
 				list1.remove(a)
 				try:
-					print('已删除'+a+n2n[a])
-					save_log('已删除'+a+n2n[a])
+					print('已删除'+a+'-'+n2n[a])
+					save_log('已删除'+a+'-'+n2n[a])
 				except:
 					print('已删除'+a)
 					save_log('已删除'+a)
@@ -74,11 +75,20 @@ try:
 			endnum=endnum.replace(' ','')#删除所有空格，减少出错概率
 			save_log('起始值设置为'+startnum+'，结束值设置为'+endnum)
 			try:
-				list1=list(range(int(startnum),int(endnum)))
+				list1=list(range(int(startnum),int(endnum)+1))
 			except:
 				print('请输入数字!')
 				continue
 			list1=[str(x) for x in list1]#将列表中的int全部转化为str
+			print('请输入排除值（回车开始抽奖）',list1)
+			exceptlist=' '
+			while True:
+				exceptlist=input('排除值: ')
+				save_log('已排除：'+exceptlist)
+				if exceptlist == '':
+					break
+				else:
+					list1.remove(exceptlist)
 			break
 		#添加抽奖名单
 		else:
@@ -91,8 +101,8 @@ try:
 				elif result == False:
 					list1.append(a)
 					try:#尝试在字典中查找学号
-						print('已添加:'+a+n2n[a])
-						save_log('抽奖名单添加'+a+n2n[a])
+						print('已添加:'+a+'-'+n2n[a])
+						save_log('抽奖名单添加'+a+'-'+n2n[a])
 					except:
 						print('已添加:'+a)
 						save_log('抽奖名单添加'+a)
@@ -100,8 +110,8 @@ try:
 			else:
 				list1.append(a)
 				try:
-					print('已添加:'+a+n2n[a])
-					save_log('抽奖名单添加'+a+n2n[a])
+					print('已添加:'+a+'-'+n2n[a])
+					save_log('抽奖名单添加'+a+'-'+n2n[a])
 				except:
 					print('已添加:'+a)
 					save_log('抽奖名单添加'+a)
@@ -116,8 +126,8 @@ try:
 		lucky=random.choice(list1)
 		list1.remove(lucky)
 		try:
-			print(lucky+n2n[lucky])
-			save_log('参与者'+lucky+n2n[lucky]+'中奖')
+			print(lucky+'-'+n2n[lucky])
+			save_log('参与者'+lucky+'-'+n2n[lucky]+'中奖')
 		except:
 			print(lucky)
 			save_log('参与者'+lucky+'中奖')
