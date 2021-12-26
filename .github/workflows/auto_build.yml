@@ -21,23 +21,23 @@ jobs:
           pip3 install pyinstaller
       - name: Build
         run: |
-          mkdir output
+          mkdir ${{ steps.commit.outputs.short }}
           pyinstaller -F main.py
-          mv dist/*.exe output/
-          mv README.md output/
-          mv LICENSE output/
-          mv n2n.json output/
-          Compress-Archive -Path output -DestinationPath output.zip
+          mv dist/*.exe ${{ steps.commit.outputs.short }}/
+          mv README.md ${{ steps.commit.outputs.short }}/
+          mv LICENSE ${{ steps.commit.outputs.short }}/
+          mv n2n.json ${{ steps.commit.outputs.short }}/
+          Compress-Archive -Path ${{ steps.commit.outputs.short }} -DestinationPath ${{ steps.commit.outputs.short }}.zip
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
           name: Build
-          path: output
+          path: ${{ steps.commit.outputs.short }}
       - name: create pre-release and upload asset
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: output.zip
+          file: ${{ steps.commit.outputs.short }}.zip
           file_glob: true
           tag: ${{ steps.commit.outputs.short }}
           overwrite: true
