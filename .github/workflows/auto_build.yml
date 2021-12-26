@@ -42,5 +42,5 @@ jobs:
           tag: ${{ steps.commit.outputs.short }}
           overwrite: true
           release_name: ${{ steps.commit.outputs.short }}
-          body: "自动打包版本，可能存在不稳定性 提交内容：${{ GITHUB_WORKFLOW }}"
+          body: "自动打包版本，可能存在不稳定性 提交内容：${{ env.GITHUB_WORKFLOW }}"
           prerelease: true
