@@ -42,5 +42,7 @@ jobs:
           tag: ${{ steps.commit.outputs.short }}
           overwrite: true
           release_name: ${{ steps.commit.outputs.short }}
-          body: "自动打包版本，可能有不稳定性"
+          body: |
+            此为自动打包版本，可能存在不稳定性
+            版本号为commit前六位
           prerelease: true
