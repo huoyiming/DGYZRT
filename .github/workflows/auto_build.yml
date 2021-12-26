@@ -42,5 +42,5 @@ jobs:
           tag: ${{ steps.commit.outputs.short }}
           overwrite: true
           release_name: ${{ steps.commit.outputs.short }}
-          body: ${{ GITHUB_WORKFLOW }}
+          body: ${{ env.GITHUB_WORKFLOW }}
           prerelease: true
