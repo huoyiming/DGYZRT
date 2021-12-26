@@ -26,24 +26,24 @@ jobs:
           pip3 install pyinstaller
       - name: Build
         run: |
-          mkdir output
+          mkdir ${{ github.event.inputs.Release_Version }}
           pyinstaller -F main.py
-          mv dist/*.exe output/
-          mv README.md output/
-          mv LICENSE output/
-          mv n2n.json output/
-          Compress-Archive -Path output -DestinationPath output.zip
+          mv dist/*.exe ${{ github.event.inputs.Release_Version }}/
+          mv README.md ${{ github.event.inputs.Release_Version }}/
+          mv LICENSE ${{ github.event.inputs.Release_Version }}/
+          mv n2n.json ${{ github.event.inputs.Release_Version }}/
+          Compress-Archive -Path ${{ github.event.inputs.Release_Version }} -DestinationPath ${{ github.event.inputs.Release_Version }}.zip
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
-          name: Build
-          path: output
+          name: ${{ github.event.inputs.Release_Version }}
+          path: ${{ github.event.inputs.Release_Version }}
       - name: create release and upload asset
         if: ${{ github.event.inputs.Release_Version != 'none' && github.event.inputs.Release_Version != '' }}
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: output.zip
+          file: ${{ github.event.inputs.Release_Version }}.zip
           file_glob: true
           tag: ${{ github.event.inputs.Release_Version }}
           overwrite: true
