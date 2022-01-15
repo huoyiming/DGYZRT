@@ -5,7 +5,6 @@ import os
 import platform
 
 
-print('幸运大抽奖')
 list1=[]#初始化抽奖列表
 strict_mode='on'#默认开启严格模式
 
@@ -84,11 +83,14 @@ try:
 			exceptlist=' '
 			while True:
 				exceptlist=input('排除值: ')
-				save_log('已排除: '+exceptlist)
 				if exceptlist == '':
 					break
 				else:
 					list1.remove(exceptlist)
+					try:#尝试在字典中查找学号
+						save_log('抽奖名单添加'+exceptlist+'-'+n2n[exceptlist])
+					except:
+						save_log('抽奖名单添加'+exceptlist)
 			break
 		#添加抽奖名单
 		else:
