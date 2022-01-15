@@ -88,9 +88,9 @@ try:
 				else:
 					list1.remove(exceptlist)
 					try:#尝试在字典中查找学号
-						save_log('抽奖名单添加'+exceptlist+'-'+n2n[exceptlist])
+						save_log('已排除:'+exceptlist+'-'+n2n[exceptlist])
 					except:
-						save_log('抽奖名单添加'+exceptlist)
+						save_log('已排除:'+exceptlist)
 			break
 		#添加抽奖名单
 		else:
