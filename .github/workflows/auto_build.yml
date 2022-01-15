@@ -1,4 +1,4 @@
-name: Auto-Build
+name: Auto-Pack
 
 on:
   push:
@@ -19,7 +19,17 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           pip3 install pyinstaller
-      - name: Build
+      - name: Add version to the python file
+        shell: python
+        run: |
+          version =  """${{ steps.commit.outputs.short }}"""
+          with open('main.py','r',encoding='utf8') as origin_file:
+            origin = origin_file.read()
+          new="print('幸运大抽奖 "+version+".beta')\n"+origin
+          with open('main.py','w',encoding='utf8') as new_file:
+            new_file.write(new)
+
+      - name: Pack to exe
         run: |
           mkdir ${{ steps.commit.outputs.short }}
           pyinstaller -F main.py
@@ -31,9 +41,9 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v2
         with:
-          name: Build
+          name: ${{ steps.commit.outputs.short }}
           path: ${{ steps.commit.outputs.short }}
-      - name: create pre-release and upload asset
+      - name: Create Pre-release And Upload Asset
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}

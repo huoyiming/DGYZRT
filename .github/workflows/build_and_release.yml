@@ -1,4 +1,4 @@
-name: Build_And_Release
+name: Pack_And_Release
 
 on:
   workflow_dispatch:
@@ -24,7 +24,17 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           pip3 install pyinstaller
-      - name: Build
+      - name: Add version to the python file
+        shell: python
+        run: |
+          version =  """${{ github.event.inputs.Release_Version }}"""
+          with open('main.py','r',encoding='utf8') as origin_file:
+            origin = origin_file.read()
+          new="print('幸运大抽奖 v"+version+"')\n"+origin
+          with open('main.py','w',encoding='utf8') as new_file:
+            new_file.write(new)
+
+      - name: Pack to exe
         run: |
           mkdir ${{ github.event.inputs.Release_Version }}
           pyinstaller -F main.py
