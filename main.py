@@ -126,6 +126,8 @@ try:
 	elif platform.system().lower() == 'linux':
 		os.system("clear")
 	#输出
+	
+	random.shuffle(list1)#打乱列表
 	print('恭喜这'+num+'位同学')
 	for i in range(int(num)):
 		lucky=random.choice(list1)
