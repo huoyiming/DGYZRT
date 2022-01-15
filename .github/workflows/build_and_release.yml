@@ -30,7 +30,7 @@ jobs:
           version =  """${{ github.event.inputs.Release_Version }}"""
           with open('main.py','r',encoding='utf8') as origin_file:
             origin = origin_file.read()
-          new="print('幸运大抽奖 v"+version+"')\n"+origin
+          new="print('幸运大抽奖 "+version+"')\n"+origin
           with open('main.py','w',encoding='utf8') as new_file:
             new_file.write(new)
 
