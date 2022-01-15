@@ -86,11 +86,14 @@ try:
 				if exceptlist == '':
 					break
 				else:
-					list1.remove(exceptlist)
-					try:#尝试在字典中查找学号
-						save_log('已排除:'+exceptlist+'-'+n2n[exceptlist])
-					except:
-						save_log('已排除:'+exceptlist)
+					if (exceptlist in list1) == True:
+						list1.remove(exceptlist)
+						try:#尝试在字典中查找学号
+							save_log('已排除:'+exceptlist+'-'+n2n[exceptlist])
+						except:
+							save_log('已排除:'+exceptlist)
+					else:
+						print('删除失败: 没有这个参与者')
 			break
 		#添加抽奖名单
 		else:
