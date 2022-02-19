@@ -132,7 +132,6 @@ try:
 	for i in range(int(num)):
 		lucky=random.choice(list1)
 		list1.remove(lucky)
-		random.shuffle(list1)#打乱列表
 		try:
 			print(lucky+'-'+n2n[lucky])
 			save_log('参与者'+lucky+'-'+n2n[lucky]+'中奖')
