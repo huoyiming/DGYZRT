@@ -132,6 +132,7 @@ try:
 	for i in range(int(num)):
 		lucky=random.choice(list1)
 		list1.remove(lucky)
+		random.shuffle(list1)#打乱列表
 		try:
 			print(lucky+'-'+n2n[lucky])
 			save_log('参与者'+lucky+'-'+n2n[lucky]+'中奖')
@@ -145,6 +146,6 @@ except:
 	elif platform.system().lower() == 'linux':
 		os.system("clear")
 	print('程序出现异常')
-	save_log('程序炸了嘤嘤嘤')
+	save_log('程序异常')
 save_log('==========日志结束==========\n')
 exit=input('按回车退出')
