@@ -104,9 +104,12 @@ try:
 	#输出
 	
 	random.shuffle(list1)#打乱列表
+	TimeStamp=int(time.time())#获取时间戳
+	random.seed(TimeStamp*TimeStamp)
 	print('恭喜这'+num+'位同学')
 	for i in range(int(num)):
-		lucky=random.choice(list1)
+		Num1=random.randint(0, len(list1))
+		lucky=list1[Num1]
 		list1.remove(lucky)
 		try:
 			print(lucky+'-'+n2n[lucky])
