@@ -6,7 +6,6 @@ import platform
 
 
 list1=[]#初始化抽奖列表
-strict_mode='on'#默认开启严格模式
 
 #创建落鸽函数
 if not os.path.exists('落鸽'):
@@ -35,20 +34,8 @@ try:
 	print('输入del 学号删除参与者\n输入all进行批量抽奖')
 	while True:
 		a=input('学号:')
-		#严格模式开启、关闭
-		if a.startswith('strict') == True:
-			if a.replace('strict ','').startswith('on') == True:
-				strict_mode='on'
-				print('严格模式已开启')
-				save_log('严格模式被开启')
-			elif a.replace('strict ','').startswith('off') == True:
-				strict_mode='off'
-				print('严格模式已关闭')
-				save_log('严格模式被关闭')
-			else:
-				print('参数错误')
 		#当直接回车时退出循环
-		elif a == '':
+		if a == '':
 			save_log('抽奖名单设置完毕，参与学号:'+"、".join(list1))
 			break
 		#del命令
@@ -67,7 +54,7 @@ try:
 		#批量抽奖
 		elif a.startswith('all') == True:
 			save_log('使用批量抽奖')
-			list1=[]#清空列表，防止作弊
+			list1=[]#清空列表
 			startnum=input('起始值: ')
 			endnum=input('结束值: ')
 			startnum=startnum.replace(' ','')
@@ -98,23 +85,12 @@ try:
 		#添加抽奖名单
 		else:
 			a=a.replace(' ','')#删除所有空格，减少出错概率
-			#开启严格模式时
-			if strict_mode == 'on':
-				result=a in list1
-				if result == True:
-					print('此人已存在')
-				elif result == False:
-					list1.append(a)
-					try:#尝试在字典中查找学号
-						print('已添加:'+a+'-'+n2n[a])
-						save_log('抽奖名单添加'+a+'-'+n2n[a])
-					except:
-						print('已添加:'+a)
-						save_log('抽奖名单添加'+a)
-			#关闭严格模式时
-			else:
+			result=a in list1
+			if result == True:
+				print('此人已存在')
+			elif result == False:
 				list1.append(a)
-				try:
+				try:#尝试在字典中查找学号
 					print('已添加:'+a+'-'+n2n[a])
 					save_log('抽奖名单添加'+a+'-'+n2n[a])
 				except:
